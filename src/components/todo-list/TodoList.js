@@ -1,23 +1,22 @@
 import React from 'react';
 import {List, ListItem} from 'material-ui/List';
-import Divider from 'material-ui/Divider';
 import Checkbox from 'material-ui/Checkbox';
 import Delete from 'material-ui/svg-icons/action/delete';
-import {red500} from 'material-ui/styles/colors';
+import {cyan500, cyan200} from 'material-ui/styles/colors';
 import Chip from 'material-ui/Chip';
+import './TodoList.css';
 
-const iconStyles = {
-    marginRight: 24,
-};
-const styles = {
+const tagStyles = {
     chip: {
-        margin: 0,
-        height: 40
+        margin: 4,
+        height: 32,
+        labelColor: "red",
+        backgroundColor: cyan200
     },
     wrapper: {
         display: 'flex',
-        flexWrap: 'wrap',
-    },
+        flexWrap: 'wrap'
+    }
 };
 function handleRequestDelete() {
     alert('You clicked the delete button.');
@@ -30,23 +29,23 @@ function TodoList() {
     return (
         <List>
             <ListItem
-                leftCheckbox={<Checkbox/>}
+                leftCheckbox={<Checkbox />}
                 primaryText="Notifications"
-                secondaryText={<Chip style={styles.chip} onRequestDelete={handleRequestDelete} onClick={handleClick}>
+                secondaryText={<Chip id='tag' style={tagStyles.chip} onRequestDelete={handleRequestDelete} onClick={handleClick}>
                         Text Chip</Chip>}
-                rightIcon={<Delete hoverColor={red500}/>}
+                rightIcon={<Delete hoverColor={cyan500}/>}
             />
             <ListItem
                 leftCheckbox={<Checkbox/>}
                 primaryText="Sounds"
                 secondaryText="Hangouts message"
-                rightIcon={<Delete hoverColor={red500}/>}
+                rightIcon={<Delete hoverColor={cyan500}/>}
             />
             <ListItem
                 leftCheckbox={<Checkbox/>}
                 primaryText="Video sounds"
                 secondaryText="Hangouts video call"
-                rightIcon={<Delete hoverColor={red500}/>}
+                rightIcon={<Delete hoverColor={cyan500}/>}
             />
         </List>
     );
