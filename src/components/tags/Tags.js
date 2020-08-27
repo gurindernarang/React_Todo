@@ -32,7 +32,7 @@ function Tags(props) {
     e.preventDefault();
     setState(true);
   }
-  const closeClickHandler = () =>{
+  const closeClickHandler = () => {
     setState(false);
   };
   return (
@@ -42,7 +42,7 @@ function Tags(props) {
           <Chip id='tag' style={tagStyles.chip} onRequestDelete={handleRequestDelete}>{tag.name}</Chip>)
       })}
       <AddBox style={tagStyles.addIconStyle} onClick={addTag} color={grey500}></AddBox>
-      <AddTag open={state} onClickClose={closeClickHandler}></AddTag>
+      <AddTag open={state} id={props.todoId} onClickClose={closeClickHandler}></AddTag>
     </div>
   );
 }

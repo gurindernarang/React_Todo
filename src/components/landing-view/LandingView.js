@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card';
 import Divider from 'material-ui/Divider';
 import TextField from 'material-ui/TextField';

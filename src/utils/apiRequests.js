@@ -1,5 +1,4 @@
 import axios from "axios";
-import {useCallback} from "react";
 
 const baseURL = "http://localhost:3000/api/";
 export const getTodos = (option, callback) => {
@@ -20,3 +19,9 @@ export const createTodo = (data, callback) => {
     .then(response => callback(response))
     .catch(error => callback(error));
 };
+export const updateTodo = (options, callback) => {
+  axios
+    .patch(baseURL + 'todos/' + options.id + '/' + options.type, options.data)
+    .then(response => callback(response))
+    .catch(error => callback(error));
+}

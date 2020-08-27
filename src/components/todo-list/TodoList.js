@@ -6,7 +6,7 @@ import {cyan500} from 'material-ui/styles/colors';
 import './TodoList.css';
 import Tags from '../tags/Tags';
 import {deleteTodo} from '../../utils/apiRequests';
-import {TodoProvider, TodoContext} from '../../store/TodoContext';
+import {TodoContext} from '../../store/TodoContext';
 
 function TodoList() {
   const [todos, setTodos] = useContext(TodoContext);
@@ -17,7 +17,7 @@ function TodoList() {
       deleteTodo(id, response => {
         //Remove deleted ToDo from todos list
         setTodos(todos.filter(todo => {
-          if (id != todo.id)
+          if (id !== todo.id)
             return todo
         }));
       });
@@ -29,7 +29,7 @@ function TodoList() {
           key={todo.id}
           leftCheckbox={<Checkbox id={todo.id}/>}
           primaryText={todo.title}
-          secondaryText={<Tags tags={todo.tags}></Tags>}
+          secondaryText={<Tags tags={todo.tags} todoId={todo.id}></Tags>}
           rightIcon={<Delete hoverColor={cyan500} onClick={e => _deleteTodo(e, todo.id)}/>}
         />)
       })}
