@@ -10,7 +10,7 @@ export const getTodos = (option, callback) => {
 };
 export const deleteTodo = (id, callback) => {
   axios
-    .delete(baseURL +"todos/"+ id)
+    .delete(baseURL + "todos/" + id)
     .then(response => callback(response))
     .catch(error => callback(error));
 };
