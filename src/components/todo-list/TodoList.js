@@ -1,54 +1,40 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {List, ListItem} from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
 import Delete from 'material-ui/svg-icons/action/delete';
-import {cyan500, cyan200} from 'material-ui/styles/colors';
-import Chip from 'material-ui/Chip';
+import {cyan500} from 'material-ui/styles/colors';
 import './TodoList.css';
+import Tags from '../tags/Tags';
+import {deleteTodo} from '../../utils/apiRequests';
+import {TodoProvider, TodoContext} from '../../store/TodoContext';
 
-const tagStyles = {
-    chip: {
-        margin: 4,
-        height: 32,
-        labelColor: "red",
-        backgroundColor: cyan200
-    },
-    wrapper: {
-        display: 'flex',
-        flexWrap: 'wrap'
-    }
-};
-function handleRequestDelete() {
-    alert('You clicked the delete button.');
-}
-
-function handleClick() {
-    alert('You clicked the Chip.');
-}
 function TodoList() {
-    return (
-        <List>
-            <ListItem
-                leftCheckbox={<Checkbox />}
-                primaryText="Notifications"
-                secondaryText={<Chip id='tag' style={tagStyles.chip} onRequestDelete={handleRequestDelete} onClick={handleClick}>
-                        Text Chip</Chip>}
-                rightIcon={<Delete hoverColor={cyan500}/>}
-            />
-            <ListItem
-                leftCheckbox={<Checkbox/>}
-                primaryText="Sounds"
-                secondaryText="Hangouts message"
-                rightIcon={<Delete hoverColor={cyan500}/>}
-            />
-            <ListItem
-                leftCheckbox={<Checkbox/>}
-                primaryText="Video sounds"
-                secondaryText="Hangouts video call"
-                rightIcon={<Delete hoverColor={cyan500}/>}
-            />
-        </List>
-    );
+  const [todos, setTodos] = useContext(TodoContext);
+  //send API request to delete a TODO
+  const _deleteTodo = (e, id) => {
+    e.preventDefault();
+    if (id)
+      deleteTodo(id, response => {
+        //Remove deleted ToDo from todos list
+        setTodos(todos.filter(todo => {
+          if (id != todo.id)
+            return todo
+        }));
+      });
+  };
+  return (
+    <List>
+      {todos.map((todo, index) => {
+        return (<ListItem
+          key={todo.id}
+          leftCheckbox={<Checkbox id={todo.id}/>}
+          primaryText={todo.title}
+          secondaryText={<Tags tags={todo.tags}></Tags>}
+          rightIcon={<Delete hoverColor={cyan500} onClick={e => _deleteTodo(e, todo.id)}/>}
+        />)
+      })}
+    </List>
+  );
 }
 
 export default TodoList;
