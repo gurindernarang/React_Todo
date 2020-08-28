@@ -44,7 +44,7 @@ function LandingView() {
       <CardHeader titleStyle={headerStyle} id="header" title="Todo Application"/>
       <Divider/>
       <CardText>
-        <TextField hintText="Enter Todo" fullWidth={true} onKeyUp={create}/>
+        <TextField hintText="Enter Todo" fullWidth={true} onKeyUp={create} autoFocus={true}/>
         <TodoList></TodoList>
       </CardText>
       <CardActions>

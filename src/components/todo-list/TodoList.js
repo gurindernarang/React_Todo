@@ -15,21 +15,28 @@ function TodoList() {
     e.preventDefault();
     if (id)
       deleteTodo(id, response => {
-        //Remove deleted ToDo from todos list
-        setTodos(todos.filter(todo => {
-          if (id !== todo.id)
-            return todo
-        }));
+        //Remove deleted ToDo from todos list is status code is 204 i.e success
+        if (response.status === 204) {
+          setTodos(todos.filter(todo => {
+            if (id !== todo.id)
+              return todo
+          }));
+        }
       });
   };
+  const updateTodo = (e) => {
+    console.log("e.target.checked", e.target.checked);
+
+  };
+
   return (
     <List>
       {todos.map((todo, index) => {
         return (<ListItem
           key={todo.id}
-          leftCheckbox={<Checkbox id={todo.id}/>}
+          leftCheckbox={<Checkbox id={todo.id} onClick={updateTodo}/>}
           primaryText={todo.title}
-          secondaryText={<Tags tags={todo.tags} todoId={todo.id}></Tags>}
+          secondaryText={<Tags tags={todo.tags} id={todo.id}></Tags>}
           rightIcon={<Delete hoverColor={cyan500} onClick={e => _deleteTodo(e, todo.id)}/>}
         />)
       })}

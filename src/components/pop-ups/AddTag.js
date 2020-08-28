@@ -46,7 +46,7 @@ function AddTag(props) {
   return (
     <div>
       <Dialog title="Add Tag" actions={actions} modal={false} open={props.open} onRequestClose={props.onClickClose}>
-        <TextField hintText="Enter Tag" fullWidth={true} onChange={updateValue}/>
+        <TextField hintText="Enter Tag" fullWidth={true} onChange={updateValue} autoFocus={true}/>
       </Dialog>
     </div>
   );
