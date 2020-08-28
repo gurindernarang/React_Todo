@@ -9,8 +9,6 @@ export const TodoProvider = props => {
     getTodos('todos', response => {
         if (response.data && response.data.length) {
           setTodos(response.data);
-        } else {
-          console.log("Response", response);
         }
       }
     );

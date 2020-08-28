@@ -33,15 +33,7 @@ export const createTodo = (data, callback) => {
     });
 };
 export const updateTodo = (options, callback) => {
-  let _url = "";
-  switch (options.type) {
-    case "assign_tag":
-      _url = baseURL + 'todos/' + options.id + '/' + options.type
-    case "delete_tag":
-      _url = baseURL + 'todos/' + options.id + '/' + options.type
-    default:
-      _url = baseURL + 'todos/' + options.id + '/' + options.type
-  }
+  let _url = baseURL + 'todos/' + options.id + '/' + options.type;
   axios
     .patch(_url, options.data)
     .then(response => callback(response))

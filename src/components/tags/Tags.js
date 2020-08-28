@@ -60,12 +60,13 @@ function Tags(props) {
   };
   return (
     <div style={tagStyles.wrapper}>
-      {props.tags.map((tag, index) => {
+      {props.tags.map((tag) => {
         return (
           <Chip id='tag' style={tagStyles.chip} onRequestDelete={(e) => deleteTag(e, tag.name)}>{tag.name}</Chip>)
       })}
-      <AddBox style={tagStyles.addIconStyle} onClick={addTag} color={grey500}></AddBox>
-      <AddTag open={state} id={props.id} onClickClose={closeClickHandler}></AddTag>
+      <AddBox style={tagStyles.addIconStyle} onClick={props.disabled ? () => {
+      } : addTag} color={grey500}/>
+      <AddTag open={state} id={props.id} onClickClose={closeClickHandler}/>
     </div>
   );
 }

@@ -15,25 +15,26 @@ const headerStyle = {
 };
 
 function LandingView() {
+  //Todos list array and function to update todos state array
   const [todos, setTodos] = useContext(TodoContext);
   const create = (e) => {
     //On click Enter key we send a POST Request
     const title = e.target.value.trim();
     if (e.keyCode === 13 && title.length) {
-      //JSON require to pass in POST request
+      //JSON require to pass to POST request
       const todo = {
         todo: {
           title: title
         }
       };
-      //Code to remove event out of synthetic data pool
+      //Code to remove event out of synthetic event pooling
       e.persist();
       //Send POST API request
       createTodo(todo, response => {
         if (response.data) {
           //add data in Todos Array
           setTodos([...todos, response.data.todo]);
-          //Empty Text box
+          //Empty Text from INPUT box
           e.target.value = "";
         }
       });

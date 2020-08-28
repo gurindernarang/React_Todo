@@ -6,7 +6,6 @@ import TextField from "material-ui/TextField";
 import {updateTodo} from "../../utils/apiRequests";
 import {TodoContext} from "../../store/TodoContext";
 
-
 function AddTag(props) {
   const [tagname, setTagname] = useState("");
   const [todos, setTodos] = useContext(TodoContext);
