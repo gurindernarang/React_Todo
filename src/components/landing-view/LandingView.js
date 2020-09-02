@@ -1,49 +1,52 @@
-import React, {useContext} from 'react';
-import {Card, CardHeader, CardText, CardActions} from 'material-ui/Card';
-import Divider from 'material-ui/Divider';
-import TextField from 'material-ui/TextField';
-import TodosList from '../todos-list/TodosList';
+import React, { useContext } from "react";
+import { Card, CardHeader, CardText, CardActions } from "material-ui/Card";
+import Divider from "material-ui/Divider";
+import TextField from "material-ui/TextField";
+import TodosList from "../todos-list/TodosList";
 import NavigationTabs from "../navigation-tabs/NavigationTabs";
-import {grey800} from 'material-ui/styles/colors';
-import './LandingView.css';
-import {createTodo} from '../../utils/apiRequests';
+import { grey800 } from "material-ui/styles/colors";
+import "./LandingView.css";
+import { connect } from "react-redux";
+import { createNewTodo } from "../../actions/index";
 
 const headerStyle = {
   fontSize: 25,
-  color: grey800
+  color: grey800,
 };
 
-function LandingView() {
-  //Todos list array and function to update todos state array
-  // const create = (e) => {
-  //   //On click Enter key we send a POST Request
-  //   const title = e.target.value.trim();
-  //   if (e.keyCode === 13 && title.length) {
-  //     //JSON require to pass to POST request
-  //     const todo = {
-  //       todo: {
-  //         title: title
-  //       }
-  //     };
-  //     //Code to remove event out of synthetic event pooling
-  //     e.persist();
-  //     //Send POST API request
-  //     createTodo(todo, response => {
-  //       if (response.data) {
-  //         //add data in Todos Array
-  //         setTodos([...todos, response.data.todo]);
-  //         //Empty Text from INPUT box
-  //         e.target.value = "";
-  //       }
-  //     });
-  //   }
-  // };
+function LandingView(props) {
+  const create = (e) => {
+    //On click Enter key we send a POST Request
+    const title = e.target.value.trim();
+    if (e.keyCode === 13 && title.length) {
+      //JSON require to pass to POST request
+      const todo = {
+        todo: {
+          title: title,
+        },
+      };
+      //Code to remove event out of synthetic event pooling
+      e.persist();
+      //Send POST API request
+      props.createNewTodo(todo);
+      e.target.value = "";
+    }
+  };
   return (
     <Card>
-      <CardHeader titleStyle={headerStyle} id="header" title="Todo Application"/>
-      <Divider/>
+      <CardHeader
+        titleStyle={headerStyle}
+        id="header"
+        title="Todo Application"
+      />
+      <Divider />
       <CardText>
-        <TextField hintText="Enter Todo" fullWidth={true} autoFocus={true}/>
+        <TextField
+          hintText="Enter Todo"
+          fullWidth={true}
+          autoFocus={true}
+          onKeyUp={create}
+        />
         <TodosList></TodosList>
       </CardText>
       <CardActions>
@@ -53,4 +56,4 @@ function LandingView() {
   );
 }
 
-export default LandingView;
+export default connect(null, { createNewTodo })(LandingView);
