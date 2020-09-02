@@ -1,11 +1,6 @@
 import {combineReducers} from "redux";
-import {getTodos} from "../utils/apiRequests";
-
-const todosList = () => {
-  //Get List of all the Todos
-  getTodos('todos', response => (response.data && response.data.length) ? response.data : []);
-};
+import todosReducer from "./todosReducer";
 
 export default combineReducers({
-  todos: todosList
+  todos: todosReducer
 })

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {List, ListItem} from 'material-ui/List';
 import Checkbox from 'material-ui/Checkbox';
 import Delete from 'material-ui/svg-icons/action/delete';
@@ -7,6 +7,7 @@ import './TodosList.css';
 import Tags from '../tags/Tags';
 import {deleteTodo, updateTodo} from '../../utils/apiRequests';
 import {connect} from 'react-redux';
+import {getTodosList} from "../../actions/index"
 
 const listStyleDisbled = {
   textDecorationLine: 'line-through',
@@ -15,51 +16,46 @@ const listStyleDisbled = {
   pointerEvents: 'none'
 };
 
-function TodosList() {
+function TodosList(props) {
+  console.log("State", props.todos);
+  useEffect(() => {
+    props.getTodosList();
+  }, []);
   //send API request to delete a TODO
-  // const _deleteTodo = (e, id) => {
-  //   e.preventDefault();
-  //   if (id)
-  //     deleteTodo(id, response => {
-  //       //Remove deleted ToDo from todos list is status code is 204 i.e success
-  //       if (response.status === 204) {
-  //         setTodos(todos.filter(todo => {
-  //           if (id !== todo.id)
-  //             return todo
-  //         }));
-  //       }
-  //     });
-  // };
-  // const _updateTodo = (e) => {
-  //   const options = {
-  //     id: e.target.id,
-  //     type: "update_status",
-  //     data: {
-  //       todo: {
-  //         status: e.target.checked ? "finished" : "initialized"
-  //       }
-  //     }
-  //   };
-  //   updateTodo(options, response => {
-  //     const _id = response.data.todo.id;
-  //     setTodos(todos.map(todo => {
-  //       if (todo.id === _id) {
-  //         return response.data.todo;
-  //       } else {
-  //         return todo;
-  //       }
-  //     }));
-  //   });
-  // };
+  const _deleteTodo = (e, id) => {
+    e.preventDefault();
+  };
+  const _updateTodo = (e) => {
+    const options = {
+      id: e.target.id,
+      type: "update_status",
+      data: {
+        todo: {
+          status: e.target.checked ? "finished" : "initialized"
+        }
+      }
+    };
+  }
   return (
     <List>
+      {props.todos.map((todo) => {
+        return (<ListItem
+          style={todo.status === 'finished' ? listStyleDisbled : {}}
+          key={todo.id}
+          leftCheckbox={<Checkbox id={todo.id} onClick={_updateTodo}
+                                  checked={todo.status === ('finished' || 'deleted')}/>}
+          primaryText={todo.title}
+          secondaryText={<Tags key={todo.id} tags={todo.tags} id={todo.id}
+                               disabled={todo.status === ('finished' || 'deleted')}/>}
+          rightIcon={<Delete hoverColor={cyan500} onClick={e => _deleteTodo(e, todo.id)}/>}
+        />)
+      })}
     </List>
   );
 }
 
 const mapStateToProps = (state) => {
-  console.log("Hellooo", state);
-  return state;
+  return {todos: state.todos}
 };
 
-export default connect(mapStateToProps)(TodosList);
+export default connect(mapStateToProps, {getTodosList})(TodosList);
