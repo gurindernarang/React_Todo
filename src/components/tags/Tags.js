@@ -4,7 +4,6 @@ import {cyan200, grey500} from "material-ui/styles/colors";
 import AddBox from 'material-ui/svg-icons/content/add-box';
 import AddTag from '../pop-ups/AddTag'
 import {updateTodo} from "../../utils/apiRequests";
-import {TodoContext} from "../../store/TodoContext";
 
 const tagStyles = {
   chip: {
@@ -24,7 +23,6 @@ const tagStyles = {
 };
 
 function Tags(props) {
-  const [todos, setTodos] = useContext(TodoContext);
   const [state, setState] = useState(false);
 
   function deleteTag(e, tagname) {
@@ -41,13 +39,13 @@ function Tags(props) {
     };
     updateTodo(options, response => {
       const _id = response.data.todo.id;
-      setTodos(todos.map(todo => {
-        if (todo.id === _id) {
-          return response.data.todo;
-        } else {
-          return todo;
-        }
-      }));
+      // setTodos(todos.map(todo => {
+      //   if (todo.id === _id) {
+      //     return response.data.todo;
+      //   } else {
+      //     return todo;
+      //   }
+      // }));
     });
   }
 

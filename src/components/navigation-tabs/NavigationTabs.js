@@ -5,36 +5,39 @@ import IconLocationOn from 'material-ui/svg-icons/communication/location-on';
 import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
 import History from 'material-ui/svg-icons/action/history';
 import Home from 'material-ui/svg-icons/action/home';
-import {TodoContext} from "../../store/TodoContext";
 import {getTodos} from "../../utils/apiRequests";
 
 const nearbyIcon = <IconLocationOn/>;
 
 function NavigationTabs() {
+  // const [selectedIndex, setSelectedIndex] = useState(0);
+  // const [todos, setTodos] = useContext(TodoContext);
+  // const select = (index, todoList) => {
+  //   setSelectedIndex(index);
+  //   //Get List of all the Todos
+  //   getTodos('todos', response => {
+  //     if (response.data && response.data.length) {
+  //       if (index === 0)
+  //         setTodos(response.data);
+  //       else if (index === 1) {
+  //         setTodos(response.data.filter(todo => {
+  //           if (todo.status === "initialized") {
+  //             return todo;
+  //           }
+  //         }));
+  //       } else if (index === 2) {
+  //         setTodos(response.data.filter(todo => {
+  //           if (todo.status === "finished") {
+  //             return todo;
+  //           }
+  //         }));
+  //       }
+  //     }
+  //   });
+  // }
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [todos, setTodos] = useContext(TodoContext);
   const select = (index, todoList) => {
-    setSelectedIndex(index);
-    //Get List of all the Todos
-    getTodos('todos', response => {
-      if (response.data && response.data.length) {
-        if (index === 0)
-          setTodos(response.data);
-        else if (index === 1) {
-          setTodos(response.data.filter(todo => {
-            if (todo.status === "initialized") {
-              return todo;
-            }
-          }));
-        } else if (index === 2) {
-          setTodos(response.data.filter(todo => {
-            if (todo.status === "finished") {
-              return todo;
-            }
-          }));
-        }
-      }
-    });
+
   }
   return (
     <Paper zDepth={1}>

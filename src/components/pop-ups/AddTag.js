@@ -4,11 +4,10 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from "material-ui/TextField";
 import {updateTodo} from "../../utils/apiRequests";
-import {TodoContext} from "../../store/TodoContext";
 
 function AddTag(props) {
   const [tagname, setTagname] = useState("");
-  const [todos, setTodos] = useContext(TodoContext);
+  // const [todos, setTodos] = useContext(TodoContext);
   const updateValue = (e) => {
     setTagname(e.target.value);
   };
@@ -25,13 +24,13 @@ function AddTag(props) {
     };
     updateTodo(options, response => {
       const _id = response.data.todo.id;
-      setTodos(todos.map(todo => {
-        if (todo.id === _id) {
-          return response.data.todo;
-        } else {
-          return todo;
-        }
-      }));
+      // setTodos(todos.map(todo => {
+      //   if (todo.id === _id) {
+      //     return response.data.todo;
+      //   } else {
+      //     return todo;
+      //   }
+      // }));
       props.onClickClose();
     });
   }
