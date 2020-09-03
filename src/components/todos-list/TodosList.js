@@ -24,6 +24,7 @@ const h1Style = {
 };
 
 function TodosList(props) {
+  console.log("props", props.filter);
   useEffect(() => {
     //Get the list of all the Todos
     props.getTodosList();
@@ -49,29 +50,35 @@ function TodosList(props) {
       {props.todos.length ? (
         props.todos.map((todo) => {
           return (
-            <ListItem
-              id="list-item"
-              style={todo.status === "finished" ? listStyleDisbled : {}}
-              key={todo.id}
-              leftCheckbox={
-                <Checkbox
-                  id={todo.id}
-                  onClick={_updateTodo}
-                  checked={todo.status === ("finished" || "deleted")}
-                />
-              }
-              rightIconButton={<RightIconMenu todo={todo} />}
-              primaryText={todo.title}
-              secondaryText={
-                <Tags
+            <>
+              {todo.status === props.filter || todo.filter === undefined ? (
+                <ListItem
+                  id="list-item"
+                  style={todo.status === "finished" ? listStyleDisbled : {}}
                   key={todo.id}
-                  tags={todo.tags}
-                  id={todo.id}
-                  disabled={todo.status === ("finished" || "deleted")}
+                  leftCheckbox={
+                    <Checkbox
+                      id={todo.id}
+                      onClick={_updateTodo}
+                      checked={todo.status === ("finished" || "deleted")}
+                    />
+                  }
+                  rightIconButton={<RightIconMenu todo={todo} />}
+                  primaryText={todo.title}
+                  secondaryText={
+                    <Tags
+                      key={todo.id}
+                      tags={todo.tags}
+                      id={todo.id}
+                      disabled={todo.status === ("finished" || "deleted")}
+                    />
+                  }
+                  onClick={_listclick}
                 />
-              }
-              onClick={_listclick}
-            />
+              ) : (
+                <></>
+              )}
+            </>
           );
         })
       ) : (
