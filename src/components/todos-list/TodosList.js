@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
-import { List, ListItem } from "material-ui/List";
+import React, {useEffect} from "react";
+import {List, ListItem} from "material-ui/List";
 import Checkbox from "material-ui/Checkbox";
 import Delete from "material-ui/svg-icons/action/delete";
-import { cyan500, grey100 } from "material-ui/styles/colors";
+import {cyan500, grey100} from "material-ui/styles/colors";
 import "./TodosList.css";
 import Tags from "../tags/Tags";
-import { deleteTodo, updateTodo } from "../../utils/apiRequests";
-import { connect } from "react-redux";
-import { getTodosList, deleteExistedTodo } from "../../actions/index";
+import {connect} from "react-redux";
+import {getTodosList, deleteExistedTodo, updateTodoStatus} from "../../actions/index";
 
 const listStyleDisbled = {
   textDecorationLine: "line-through",
@@ -17,11 +16,11 @@ const listStyleDisbled = {
 };
 
 function TodosList(props) {
-  console.log("State", props.todos);
   useEffect(() => {
+    //Get the list of all the Todos
     props.getTodosList();
-  }, []);
-  //send API request to delete a TODO
+  }, [props]);
+  //Calls deleteExistedTodo action
   const _deleteTodo = (e, id) => {
     e.preventDefault();
     if (id) props.deleteExistedTodo(id);
@@ -36,6 +35,7 @@ function TodosList(props) {
         },
       },
     };
+    props.updateTodoStatus(options);
   };
   return (
     <List>
@@ -74,9 +74,9 @@ function TodosList(props) {
 }
 
 const mapStateToProps = (state) => {
-  return { todos: state.todos };
+  return {todos: state.todos};
 };
 
-export default connect(mapStateToProps, { getTodosList, deleteExistedTodo })(
+export default connect(mapStateToProps, {getTodosList, deleteExistedTodo, updateTodoStatus})(
   TodosList
 );

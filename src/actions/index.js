@@ -18,6 +18,7 @@ export const createNewTodo = (todo) => async (dispatch) => {
     });
   });
 };
+
 export const deleteExistedTodo = (id) => async (dispatch) => {
   await deleteTodo(id, () => {
     dispatch({
@@ -28,6 +29,7 @@ export const deleteExistedTodo = (id) => async (dispatch) => {
     });
   });
 };
+
 export const addTag = (tag) => async (dispatch) => {
   await updateTodo(tag, (response) => {
     dispatch({
@@ -36,10 +38,20 @@ export const addTag = (tag) => async (dispatch) => {
     });
   });
 };
-export const deleteTag = (tag) => async (dispatch) => {
-  await updateTodo(tag, (response) => {
+
+export const deleteTag = (data) => async (dispatch) => {
+  await updateTodo(data, (response) => {
     dispatch({
       type: "DELETE_TAG",
+      payload: response.data && response.data.todo ? response.data.todo : [],
+    });
+  });
+};
+
+export const updateTodoStatus = (data) => async (dispatch) => {
+  await updateTodo(data, (response) => {
+    dispatch({
+      type: "UPDATE_STATUS",
       payload: response.data && response.data.todo ? response.data.todo : [],
     });
   });

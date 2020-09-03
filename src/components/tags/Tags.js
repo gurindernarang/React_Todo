@@ -1,26 +1,26 @@
-import React, {useContext, useState} from 'react';
+import React, { useState } from "react";
 import Chip from "material-ui/Chip";
-import {cyan200, grey500} from "material-ui/styles/colors";
-import AddBox from 'material-ui/svg-icons/content/add-box';
-import AddTag from '../pop-ups/AddTag'
-import {deleteTag} from "../../actions/index";
-import {connect} from 'react-redux';
+import { cyan200, grey500 } from "material-ui/styles/colors";
+import AddBox from "material-ui/svg-icons/content/add-box";
+import AddTag from "../pop-ups/AddTag";
+import { deleteTag } from "../../actions/index";
+import { connect } from "react-redux";
 
 const tagStyles = {
   chip: {
     margin: 4,
     height: 32,
     labelColor: "red",
-    backgroundColor: cyan200
+    backgroundColor: cyan200,
   },
   wrapper: {
-    display: 'flex',
-    flexWrap: 'wrap'
+    display: "flex",
+    flexWrap: "wrap",
   },
   addIconStyle: {
     marginTop: 8,
-    marginLeft: 8
-  }
+    marginLeft: 8,
+  },
 };
 
 function Tags(props) {
@@ -28,15 +28,15 @@ function Tags(props) {
 
   function deleteTag(e, tagname) {
     e.preventDefault();
-    //Create Object which we needs to pass to updateTodo function of apiRequests
+    //Create Object which we needs to pass to updateTodo function inside apiRequests.js
     const options = {
       id: props.id,
       type: "delete_tag",
       data: {
         tag: {
-          name: tagname
-        }
-      }
+          name: tagname,
+        },
+      },
     };
     props.deleteTag(options);
   }
@@ -44,7 +44,7 @@ function Tags(props) {
   const addTag = (e) => {
     e.preventDefault();
     setState(true);
-  }
+  };
   const closeClickHandler = () => {
     setState(false);
   };
@@ -52,15 +52,25 @@ function Tags(props) {
     <div style={tagStyles.wrapper}>
       {props.tags.map((tag) => {
         return (
-          <Chip id='tag' style={tagStyles.chip} onRequestDelete={(e) => deleteTag(e, tag.name)}>{tag.name}</Chip>)
+          <Chip
+            id="tag"
+            style={tagStyles.chip}
+            onRequestDelete={(e) => deleteTag(e, tag.name)}
+          >
+            {tag.name}
+          </Chip>
+        );
       })}
-      <AddBox style={tagStyles.addIconStyle} onClick={props.disabled ? () => {
-      } : addTag} color={grey500}/>
-      <AddTag open={state} id={props.id} onClickClose={closeClickHandler}/>
+      <AddBox
+        style={tagStyles.addIconStyle}
+        onClick={props.disabled ? () => {} : addTag}
+        color={grey500}
+      />
+      <AddTag open={state} id={props.id} onClickClose={closeClickHandler} />
     </div>
   );
 }
 
 export default connect(null, {
-  deleteTag
+  deleteTag,
 })(Tags);

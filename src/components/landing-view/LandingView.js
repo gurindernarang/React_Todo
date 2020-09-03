@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Card, CardHeader, CardText, CardActions } from "material-ui/Card";
 import Divider from "material-ui/Divider";
 import TextField from "material-ui/TextField";
@@ -16,7 +16,7 @@ const headerStyle = {
 
 function LandingView(props) {
   const create = (e) => {
-    //On click Enter key we send a POST Request
+    //On click Enter key we send a an action to add a Todo
     const title = e.target.value.trim();
     if (e.keyCode === 13 && title.length) {
       //JSON require to pass to POST request
@@ -27,7 +27,7 @@ function LandingView(props) {
       };
       //Code to remove event out of synthetic event pooling
       e.persist();
-      //Send POST API request
+      //Call action to create a new Todo
       props.createNewTodo(todo);
       e.target.value = "";
     }
