@@ -33,9 +33,10 @@ export const createTodo = (data, callback) => {
     });
 };
 export const updateTodo = (options, callback) => {
-  let _url = baseURL + 'todos/' + options.id + '/' + options.type;
+  let url = baseURL + 'todos/' + options.id;
+  url = options.type ? url + '/' + options.type : url;
   axios
-    .patch(_url, options.data)
+    .patch(url, options.data)
     .then(response => callback(response))
     .catch(error => {
       toast.error(error.message, {autoClose: 5000});

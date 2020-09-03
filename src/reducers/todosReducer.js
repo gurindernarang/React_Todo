@@ -26,7 +26,15 @@ export default (state = [], action) => {
           return todo;
         }
       });
-      case "UPDATE_STATUS":
+    case "UPDATE_STATUS":
+      return state.map((todo) => {
+        if (todo.id === action.payload.id) {
+          return action.payload;
+        } else {
+          return todo;
+        }
+      });
+    case "UPDATE_TODO":
       return state.map((todo) => {
         if (todo.id === action.payload.id) {
           return action.payload;

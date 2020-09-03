@@ -24,7 +24,7 @@ const tagStyles = {
 };
 
 function Tags(props) {
-  const [state, setState] = useState(false);
+  const [openState, setOpenState] = useState(false);
 
   function deleteTag(e, tagname) {
     e.preventDefault();
@@ -43,17 +43,17 @@ function Tags(props) {
 
   const addTag = (e) => {
     e.preventDefault();
-    setState(true);
+    setOpenState(true);
   };
   const closeClickHandler = () => {
-    setState(false);
+    setOpenState(false);
   };
   return (
     <div style={tagStyles.wrapper}>
-      {props.tags.map((tag) => {
+      {props.tags.map((tag,index) => {
         return (
           <Chip
-            key={tag.id}
+            key={index}
             id="tag"
             style={tagStyles.chip}
             onRequestDelete={(e) => deleteTag(e, tag.name)}
@@ -68,7 +68,7 @@ function Tags(props) {
         } : addTag}
         color={grey500}
       />
-      <PopUpWithInput open={state} id={props.id} addTag={true} inputLabel="Enter Tag" title="Add Tag"
+      <PopUpWithInput open={openState} id={props.id} addNewTag={true} inputLabel="Enter Tag" title="Add Tag"
                       buttonLabel="Save Tag" onClickClose={closeClickHandler}/>
     </div>
   );

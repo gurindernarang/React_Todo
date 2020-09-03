@@ -1,18 +1,23 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
 import RaisedButton from "material-ui/RaisedButton";
 import TextField from "material-ui/TextField";
-import {addTag} from "../../actions/index";
+import {addTag, updateExistingTodo} from "../../actions/index";
 import {connect} from "react-redux";
-import {updateTodo} from "../../utils/apiRequests";
 
 function PopUpWithInput(props) {
-  const [tagname, setTagname] = useState("");
+  const [inputVal, setInputVal] = useState("");
+  useEffect(() => {
+    setInputVal(props.todo ? props.todo.title : "");
+  }, [props.todo]);
   const updateValue = (e) => {
-    setTagname(e.target.value.trim());
+    setInputVal(e.target.value.trim());
     if (e.keyCode === 13 && e.target.value.trim()) {
-      saveTag();
+      if (props.addNewTag)
+        saveTag();
+      else
+        updateTodo();
     }
   };
   const saveTag = () => {
@@ -22,7 +27,7 @@ function PopUpWithInput(props) {
       type: "assign_tag",
       data: {
         tag: {
-          name: tagname,
+          name: inputVal,
         },
       },
     };
@@ -30,7 +35,16 @@ function PopUpWithInput(props) {
     props.onClickClose();
   };
   const updateTodo = () => {
-    console.log("Update Todo")
+    const options = {
+      id: props.todo.id,
+      data: {
+        todo: {
+          title: inputVal,
+        },
+      },
+    };
+    props.updateExistingTodo(options);
+    props.onClickClose();
   }
   const style = {
     margin: 12,
@@ -41,7 +55,7 @@ function PopUpWithInput(props) {
       label={props.buttonLabel}
       primary={true}
       style={style}
-      onClick={props.addTag ? saveTag : updateTodo}
+      onClick={props.addNewTag ? saveTag : updateTodo}
     />,
   ];
   return (
@@ -56,6 +70,7 @@ function PopUpWithInput(props) {
         <TextField
           hintText={props.inputLabel}
           fullWidth={true}
+          value={inputVal}
           onChange={updateValue}
           onKeyUp={updateValue}
           autoFocus={true}
@@ -67,4 +82,5 @@ function PopUpWithInput(props) {
 
 export default connect(null, {
   addTag,
+  updateExistingTodo
 })(PopUpWithInput);

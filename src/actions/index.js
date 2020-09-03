@@ -56,3 +56,11 @@ export const updateTodoStatus = (data) => async (dispatch) => {
     });
   });
 };
+export const updateExistingTodo = (data) => async (dispatch) => {
+  await updateTodo(data, (response) => {
+    dispatch({
+      type: "UPDATE_TODO",
+      payload: response.data && response.data.todo ? response.data.todo : [],
+    });
+  });
+};
