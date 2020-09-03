@@ -1,12 +1,16 @@
-import React, {useEffect} from "react";
-import {List, ListItem} from "material-ui/List";
+import React, { useEffect } from "react";
+import { List, ListItem } from "material-ui/List";
 import Checkbox from "material-ui/Checkbox";
-import Delete from "material-ui/svg-icons/action/delete";
-import {cyan500, grey100} from "material-ui/styles/colors";
+import { grey800, grey100 } from "material-ui/styles/colors";
 import "./TodosList.css";
 import Tags from "../tags/Tags";
-import {connect} from "react-redux";
-import {getTodosList, deleteExistedTodo, updateTodoStatus} from "../../actions/index";
+import { connect } from "react-redux";
+import {
+  getTodosList,
+  deleteExistedTodo,
+  updateTodoStatus,
+} from "../../actions/index";
+import RightIconMenu from "../right-icon-menu/RightIconMenu";
 
 const listStyleDisbled = {
   textDecorationLine: "line-through",
@@ -15,11 +19,15 @@ const listStyleDisbled = {
   pointerEvents: "none",
 };
 
+const h1Style = {
+  color: grey800,
+};
+
 function TodosList(props) {
   useEffect(() => {
     //Get the list of all the Todos
     props.getTodosList();
-  }, [props]);
+  }, []);
   //Calls deleteExistedTodo action
   const _deleteTodo = (e, id) => {
     e.preventDefault();
@@ -37,46 +45,52 @@ function TodosList(props) {
     };
     props.updateTodoStatus(options);
   };
+  const _listclick = (e) => {
+    e.preventDefault();
+  };
   return (
     <List>
-      {props.todos.map((todo) => {
-        return (
-          <ListItem
-            style={todo.status === "finished" ? listStyleDisbled : {}}
-            key={todo.id}
-            leftCheckbox={
-              <Checkbox
-                id={todo.id}
-                onClick={_updateTodo}
-                checked={todo.status === ("finished" || "deleted")}
-              />
-            }
-            primaryText={todo.title}
-            secondaryText={
-              <Tags
-                key={todo.id}
-                tags={todo.tags}
-                id={todo.id}
-                disabled={todo.status === ("finished" || "deleted")}
-              />
-            }
-            rightIcon={
-              <Delete
-                hoverColor={cyan500}
-                onClick={(e) => _deleteTodo(e, todo.id)}
-              />
-            }
-          />
-        );
-      })}
+      {props.todos.length ? (
+        props.todos.map((todo) => {
+          return (
+            <ListItem
+              id="list-item"
+              style={todo.status === "finished" ? listStyleDisbled : {}}
+              key={todo.id}
+              leftCheckbox={
+                <Checkbox
+                  id={todo.id}
+                  onClick={_updateTodo}
+                  checked={todo.status === ("finished" || "deleted")}
+                />
+              }
+              rightIconButton={<RightIconMenu todo={todo} />}
+              primaryText={todo.title}
+              secondaryText={
+                <Tags
+                  key={todo.id}
+                  tags={todo.tags}
+                  id={todo.id}
+                  disabled={todo.status === ("finished" || "deleted")}
+                />
+              }
+              onClick={_listclick}
+            />
+          );
+        })
+      ) : (
+        <h1 style={h1Style}>No Todo Found! Please add Todo</h1>
+      )}
     </List>
   );
 }
 
 const mapStateToProps = (state) => {
-  return {todos: state.todos};
+  return { todos: state.todos };
 };
 
-export default connect(mapStateToProps, {getTodosList, deleteExistedTodo, updateTodoStatus})(
-  TodosList
-);
+export default connect(mapStateToProps, {
+  getTodosList,
+  deleteExistedTodo,
+  updateTodoStatus,
+})(TodosList);

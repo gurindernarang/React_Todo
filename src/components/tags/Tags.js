@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import Chip from "material-ui/Chip";
-import { cyan200, grey500 } from "material-ui/styles/colors";
+import {cyan200, grey500} from "material-ui/styles/colors";
 import AddBox from "material-ui/svg-icons/content/add-box";
-import AddTag from "../pop-ups/AddTag";
-import { deleteTag } from "../../actions/index";
-import { connect } from "react-redux";
+import PopUpWithInput from "../pop-ups/popUpWithInput";
+import {deleteTag} from "../../actions/index";
+import {connect} from "react-redux";
 
 const tagStyles = {
   chip: {
@@ -53,6 +53,7 @@ function Tags(props) {
       {props.tags.map((tag) => {
         return (
           <Chip
+            key={tag.id}
             id="tag"
             style={tagStyles.chip}
             onRequestDelete={(e) => deleteTag(e, tag.name)}
@@ -63,10 +64,12 @@ function Tags(props) {
       })}
       <AddBox
         style={tagStyles.addIconStyle}
-        onClick={props.disabled ? () => {} : addTag}
+        onClick={props.disabled ? () => {
+        } : addTag}
         color={grey500}
       />
-      <AddTag open={state} id={props.id} onClickClose={closeClickHandler} />
+      <PopUpWithInput open={state} id={props.id} addTag={true} inputLabel="Enter Tag" title="Add Tag"
+                      buttonLabel="Save Tag" onClickClose={closeClickHandler}/>
     </div>
   );
 }

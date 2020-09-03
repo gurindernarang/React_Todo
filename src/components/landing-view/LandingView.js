@@ -13,6 +13,9 @@ const headerStyle = {
   fontSize: 25,
   color: grey800,
 };
+const contentStyle = {
+  minHeight: 600,
+};
 
 function LandingView(props) {
   const create = (e) => {
@@ -29,18 +32,18 @@ function LandingView(props) {
       e.persist();
       //Call action to create a new Todo
       props.createNewTodo(todo);
-      e.target.value = "";
+      e.target.value = null;
     }
   };
   return (
     <Card>
       <CardHeader
-        titleStyle={headerStyle}
         id="header"
+        titleStyle={headerStyle}
         title="Todo Application"
       />
       <Divider />
-      <CardText>
+      <CardText style={contentStyle}>
         <TextField
           hintText="Enter Todo"
           fullWidth={true}
