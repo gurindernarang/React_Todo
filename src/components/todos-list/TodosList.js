@@ -45,44 +45,46 @@ function TodosList(props) {
   const _listclick = (e) => {
     e.preventDefault();
   };
+  let todosList = [];
+  if (props.todos.length) {
+    if (!props.filter) todosList = props.todos;
+    else
+      todosList = props.todos.filter((todo) => {
+        if (todo.status === props.filter) return todo;
+      });
+  }
   return (
     <List>
-      {props.todos.length ? (
-        props.todos.map((todo) => {
+      {todosList.length ? (
+        todosList.map((todo) => {
           return (
-            <>
-              {todo.status === props.filter || todo.filter === undefined ? (
-                <ListItem
-                  id="list-item"
-                  style={todo.status === "finished" ? listStyleDisbled : {}}
-                  key={todo.id}
-                  leftCheckbox={
-                    <Checkbox
-                      id={todo.id}
-                      onClick={_updateTodo}
-                      checked={todo.status === ("finished" || "deleted")}
-                    />
-                  }
-                  rightIconButton={<RightIconMenu todo={todo} />}
-                  primaryText={todo.title}
-                  secondaryText={
-                    <Tags
-                      key={todo.id}
-                      tags={todo.tags}
-                      id={todo.id}
-                      disabled={todo.status === ("finished" || "deleted")}
-                    />
-                  }
-                  onClick={_listclick}
+            <ListItem
+              id="list-item"
+              style={todo.status === "finished" ? listStyleDisbled : {}}
+              key={todo.id}
+              leftCheckbox={
+                <Checkbox
+                  id={todo.id}
+                  onClick={_updateTodo}
+                  checked={todo.status === ("finished" || "deleted")}
                 />
-              ) : (
-                <></>
-              )}
-            </>
+              }
+              rightIconButton={<RightIconMenu todo={todo} />}
+              primaryText={todo.title}
+              secondaryText={
+                <Tags
+                  key={todo.id}
+                  tags={todo.tags}
+                  id={todo.id}
+                  disabled={todo.status === ("finished" || "deleted")}
+                />
+              }
+              onClick={_listclick}
+            />
           );
         })
       ) : (
-        <h1 style={h1Style}>No Todo Found! Please add Todo</h1>
+        <h1 style={h1Style}>No Todos Found!!</h1>
       )}
     </List>
   );
