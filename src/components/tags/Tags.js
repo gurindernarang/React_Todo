@@ -26,7 +26,7 @@ const tagStyles = {
 function Tags(props) {
   const [openState, setOpenState] = useState(false);
 
-  function deleteTag(e, tagname) {
+  const _deleteTag = (e, tagname) => {
     e.preventDefault();
     //Create Object which we needs to pass to updateTodo function inside apiRequests.js
     const options = {
@@ -50,13 +50,13 @@ function Tags(props) {
   };
   return (
     <div style={tagStyles.wrapper}>
-      {props.tags.map((tag,index) => {
+      {props.tags.map((tag, index) => {
         return (
           <Chip
             key={index}
             id="tag"
             style={tagStyles.chip}
-            onRequestDelete={(e) => deleteTag(e, tag.name)}
+            onRequestDelete={(e) => _deleteTag(e, tag.name)}
           >
             {tag.name}
           </Chip>

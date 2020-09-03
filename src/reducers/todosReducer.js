@@ -1,3 +1,12 @@
+const updateState = (state, action) => {
+  return state.map((todo) => {
+    if (todo.id === action.payload.id) {
+      return action.payload;
+    } else {
+      return todo;
+    }
+  });
+};
 export default (state = [], action) => {
   switch (action.type) {
     case "GET_TODOS":
@@ -11,37 +20,13 @@ export default (state = [], action) => {
         }
       });
     case "ADD_TAG":
-      return state.map((todo) => {
-        if (todo.id === action.payload.id) {
-          return action.payload;
-        } else {
-          return todo;
-        }
-      });
+      return updateState(state, action);
     case "DELETE_TAG":
-      return state.map((todo) => {
-        if (todo.id === action.payload.id) {
-          return action.payload;
-        } else {
-          return todo;
-        }
-      });
+      return updateState(state, action);
     case "UPDATE_STATUS":
-      return state.map((todo) => {
-        if (todo.id === action.payload.id) {
-          return action.payload;
-        } else {
-          return todo;
-        }
-      });
+      return updateState(state, action);
     case "UPDATE_TODO":
-      return state.map((todo) => {
-        if (todo.id === action.payload.id) {
-          return action.payload;
-        } else {
-          return todo;
-        }
-      });
+      return updateState(state, action);
     default:
       return state;
   }

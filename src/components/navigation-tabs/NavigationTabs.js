@@ -12,7 +12,7 @@ import Home from "material-ui/svg-icons/action/home";
 const nearbyIcon = <IconLocationOn />;
 
 function NavigationTabs() {
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex] = useState(0);
   const select = (index, todoList) => {};
   return (
     <Paper zDepth={1}>

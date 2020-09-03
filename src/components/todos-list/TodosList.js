@@ -28,11 +28,7 @@ function TodosList(props) {
     //Get the list of all the Todos
     props.getTodosList();
   }, []);
-  //Calls deleteExistedTodo action
-  const _deleteTodo = (e, id) => {
-    e.preventDefault();
-    if (id) props.deleteExistedTodo(id);
-  };
+
   const _updateTodo = (e) => {
     const options = {
       id: e.target.id,
