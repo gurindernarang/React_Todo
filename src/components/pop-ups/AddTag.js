@@ -3,7 +3,8 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from "material-ui/TextField";
-import {updateTodo} from "../../utils/apiRequests";
+import {addTag} from "../../actions/index";
+import {connect} from 'react-redux';
 
 function AddTag(props) {
   const [tagname, setTagname] = useState("");
@@ -12,7 +13,7 @@ function AddTag(props) {
     setTagname(e.target.value);
   };
   const saveTag = () => {
-    //Create Object which we needs to pass to updateTodo function of apiRequests
+    //Creating Object which we needs to pass to updateTodo function of apiRequests as body
     const options = {
       id: props.id,
       type: "assign_tag",
@@ -22,17 +23,8 @@ function AddTag(props) {
         }
       }
     };
-    updateTodo(options, response => {
-      const _id = response.data.todo.id;
-      // setTodos(todos.map(todo => {
-      //   if (todo.id === _id) {
-      //     return response.data.todo;
-      //   } else {
-      //     return todo;
-      //   }
-      // }));
-      props.onClickClose();
-    });
+    props.addTag(options);
+    props.onClickClose();
   }
   const style = {
     margin: 12,
@@ -50,4 +42,6 @@ function AddTag(props) {
   );
 }
 
-export default AddTag;
+export default connect(null, {
+  addTag
+})(AddTag);

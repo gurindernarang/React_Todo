@@ -3,7 +3,8 @@ import Chip from "material-ui/Chip";
 import {cyan200, grey500} from "material-ui/styles/colors";
 import AddBox from 'material-ui/svg-icons/content/add-box';
 import AddTag from '../pop-ups/AddTag'
-import {updateTodo} from "../../utils/apiRequests";
+import {deleteTag} from "../../actions/index";
+import {connect} from 'react-redux';
 
 const tagStyles = {
   chip: {
@@ -37,16 +38,7 @@ function Tags(props) {
         }
       }
     };
-    updateTodo(options, response => {
-      const _id = response.data.todo.id;
-      // setTodos(todos.map(todo => {
-      //   if (todo.id === _id) {
-      //     return response.data.todo;
-      //   } else {
-      //     return todo;
-      //   }
-      // }));
-    });
+    props.deleteTag(options);
   }
 
   const addTag = (e) => {
@@ -69,4 +61,6 @@ function Tags(props) {
   );
 }
 
-export default Tags;
+export default connect(null, {
+  deleteTag
+})(Tags);

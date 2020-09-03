@@ -7,7 +7,7 @@ import "./TodosList.css";
 import Tags from "../tags/Tags";
 import { deleteTodo, updateTodo } from "../../utils/apiRequests";
 import { connect } from "react-redux";
-import { getTodosList } from "../../actions/index";
+import { getTodosList, deleteExistedTodo } from "../../actions/index";
 
 const listStyleDisbled = {
   textDecorationLine: "line-through",
@@ -24,6 +24,7 @@ function TodosList(props) {
   //send API request to delete a TODO
   const _deleteTodo = (e, id) => {
     e.preventDefault();
+    if (id) props.deleteExistedTodo(id);
   };
   const _updateTodo = (e) => {
     const options = {
@@ -76,4 +77,6 @@ const mapStateToProps = (state) => {
   return { todos: state.todos };
 };
 
-export default connect(mapStateToProps, { getTodosList })(TodosList);
+export default connect(mapStateToProps, { getTodosList, deleteExistedTodo })(
+  TodosList
+);

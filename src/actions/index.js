@@ -1,5 +1,5 @@
 //Todo Actions
-import { getTodos, createTodo } from "../utils/apiRequests";
+import {getTodos, createTodo, deleteTodo, updateTodo} from "../utils/apiRequests";
 
 export const getTodosList = () => async (dispatch) => {
   await getTodos("todos", (response) => {
@@ -18,15 +18,29 @@ export const createNewTodo = (todo) => async (dispatch) => {
     });
   });
 };
-export const deleteTodo = (todo) => {
-  return {
-    type: "DELETE_TODO",
-    payload: todo,
-  };
+export const deleteExistedTodo = (id) => async (dispatch) => {
+  await deleteTodo(id, () => {
+    dispatch({
+      type: "DELETE_TODO",
+      payload: {
+        id: id,
+      },
+    });
+  });
 };
-export const updateTodo = (todo) => {
-  return {
-    type: "UPDATE_TODO",
-    payload: todo,
-  };
+export const addTag = (tag) => async (dispatch) => {
+  await updateTodo(tag, (response) => {
+    dispatch({
+      type: "ADD_TAG",
+      payload: response.data && response.data.todo ? response.data.todo : [],
+    });
+  });
+};
+export const deleteTag = (tag) => async (dispatch) => {
+  await updateTodo(tag, (response) => {
+    dispatch({
+      type: "DELETE_TAG",
+      payload: response.data && response.data.todo ? response.data.todo : [],
+    });
+  });
 };
