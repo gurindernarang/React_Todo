@@ -4,7 +4,7 @@ import MoreVertIcon from "material-ui/svg-icons/navigation/more-vert";
 import IconMenu from "material-ui/IconMenu";
 import MenuItem from "material-ui/MenuItem";
 import {grey500} from "material-ui/styles/colors";
-import {deleteExistedTodo} from "../../actions/index";
+import {updateTodoStatus} from "../../actions/index";
 import {connect} from "react-redux";
 import PopUpWithInput from "../pop-ups/popUpWithInput";
 
@@ -19,7 +19,16 @@ const RightIconMenu = (props) => {
   //Calls deleteExistedTodo action
   const _deleteTodo = (e) => {
     e.preventDefault();
-    if (props.todo) props.deleteExistedTodo(props.todo.id);
+    const options = {
+      id: props.todo.id,
+      type: "update_status",
+      data: {
+        todo: {
+          status: "deleted",
+        },
+      },
+    };
+    props.updateTodoStatus(options);
   };
   const closeClickHandler = () => {
     setOpenState(false);
@@ -40,5 +49,5 @@ const RightIconMenu = (props) => {
 };
 
 export default connect(null, {
-  deleteExistedTodo,
+  updateTodoStatus,
 })(RightIconMenu);

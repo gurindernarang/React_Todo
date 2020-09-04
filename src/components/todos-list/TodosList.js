@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import { List, ListItem } from "material-ui/List";
 import Checkbox from "material-ui/Checkbox";
-import { grey800, grey100 } from "material-ui/styles/colors";
+import { grey800, grey100, red500 } from "material-ui/styles/colors";
 import "./TodosList.css";
 import Tags from "../tags/Tags";
 import { connect } from "react-redux";
+import Restore from "material-ui/svg-icons/action/restore";
 import {
   getTodosList,
   deleteExistedTodo,
@@ -29,25 +30,35 @@ function TodosList(props) {
     //Get the list of all the Todos
     props.getTodosList();
   }, []);
-
+  //Update Todo Status in select checkbocx
   const _updateTodo = (e) => {
-    const options = {
-      id: e.target.id,
+    let options = {
       type: "update_status",
+      id: null,
       data: {
         todo: {
-          status: e.target.checked ? "finished" : "initialized",
+          status: null,
         },
       },
     };
+    if (e.target) {
+      options.id = e.target.id;
+      options.data.todo.status = e.target.checked ? "finished" : "initialized";
+    } else {
+      options.id = e.id;
+      options.data.todo.status = "initialized";
+    }
     props.updateTodoStatus(options);
   };
-  const _listclick = (e) => {
+  const _listclicked = (e) => {
     e.preventDefault();
   };
   let todosList = [];
   if (props.todos.length) {
-    if (!props.filter) todosList = props.todos;
+    if (!props.filter)
+      todosList = props.todos.filter((todo) => {
+        if (todo.status !== "deleted") return todo;
+      });
     else
       todosList = props.todos.filter((todo) => {
         if (todo.status === props.filter) return todo;
@@ -63,13 +74,28 @@ function TodosList(props) {
               style={todo.status === "finished" ? listStyleDisbled : {}}
               key={todo.id}
               leftCheckbox={
-                <Checkbox
-                  id={todo.id}
-                  onClick={_updateTodo}
-                  checked={todo.status === ("finished" || "deleted")}
-                />
+                todo.status !== "deleted" ? (
+                  <Checkbox
+                    id={todo.id}
+                    onClick={_updateTodo}
+                    checked={todo.status === ("finished" || "deleted")}
+                  />
+                ) : (
+                  <Checkbox checked={false} disabled={true} />
+                )
               }
-              rightIconButton={<RightIconMenu todo={todo} />}
+              rightIconButton={
+                todo.status !== "deleted" ? (
+                  <RightIconMenu todo={todo} />
+                ) : (
+                  <Restore
+                    hoverColor={red500}
+                    onClick={() => {
+                      _updateTodo(todo);
+                    }}
+                  />
+                )
+              }
               primaryText={todo.title}
               secondaryText={
                 <Tags
@@ -79,7 +105,7 @@ function TodosList(props) {
                   disabled={todo.status === ("finished" || "deleted")}
                 />
               }
-              onClick={_listclick}
+              onClick={_listclicked}
             />
           );
         })
